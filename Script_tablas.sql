@@ -78,11 +78,13 @@ CREATE TABLE IF NOT EXISTS `bibliotecavm-db`.`tbl_encuesta` (
   `en_id` INT NOT NULL AUTO_INCREMENT,
   `en_descripcion_pregunta` TEXT NOT NULL,
   `tbl_usuarios_usu_id` INT NOT NULL,
-  PRIMARY KEY (`en_id`),
+  PRIMARY KEY (`en_id`, `tbl_usuarios_usu_id`),
   INDEX `fk_tbl_encuesta_tbl_usuarios1_idx` (`tbl_usuarios_usu_id` ASC) ,
   CONSTRAINT `fk_tbl_encuesta_tbl_usuarios1`
     FOREIGN KEY (`tbl_usuarios_usu_id`)
-    REFERENCES `bibliotecavm-db`.`tbl_usuarios` (`usu_id`))
+    REFERENCES `bibliotecavm-db`.`tbl_usuarios` (`usu_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
@@ -139,11 +141,14 @@ CREATE TABLE IF NOT EXISTS `bibliotecavm-db`.`tbl_respuestas` (
   `res_id` INT NOT NULL AUTO_INCREMENT,
   `res_respuesta` TEXT NOT NULL,
   `tbl_encuesta_en_id` INT NOT NULL,
-  PRIMARY KEY (`res_id`),
-  INDEX `fk_tbl_respuestas_tbl_encuesta1_idx` (`tbl_encuesta_en_id` ASC) ,
+  `tbl_encuesta_tbl_usuarios_usu_id` INT NOT NULL,
+  PRIMARY KEY (`res_id`, `tbl_encuesta_en_id`, `tbl_encuesta_tbl_usuarios_usu_id`),
+  INDEX `fk_tbl_respuestas_tbl_encuesta1_idx` (`tbl_encuesta_en_id` ASC, `tbl_encuesta_tbl_usuarios_usu_id` ASC) ,
   CONSTRAINT `fk_tbl_respuestas_tbl_encuesta1`
-    FOREIGN KEY (`tbl_encuesta_en_id`)
-    REFERENCES `bibliotecavm-db`.`tbl_encuesta` (`en_id`))
+    FOREIGN KEY (`tbl_encuesta_en_id` , `tbl_encuesta_tbl_usuarios_usu_id`)
+    REFERENCES `bibliotecavm-db`.`tbl_encuesta` (`en_id` , `tbl_usuarios_usu_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
