@@ -115,19 +115,22 @@ END//
 DELIMITER ;
 
 -- Validar el inicio de sesión comprobando correo y contraseña
-DELIMITER // 
+DELIMITER //
 CREATE PROCEDURE procValidateUserLogin(
     IN v_correo VARCHAR(80), 
-    IN v_contrasena TEXT)
+    IN v_contrasena TEXT) -- Contraseña en texto plano proporcionada por el usuario
 BEGIN 
+    -- Seleccionar los datos del usuario si el correo y la contraseña (hash + salt) coinciden
     SELECT 
         usu_id, 
         usu_nombre, 
         usu_apellido, 
-        usu_rol 
+        usu_rol,
+        usu_contrasena, -- Hash de la contraseña almacenado
+        usu_salt        -- Salt almacenado
     FROM tbl_usuarios 
     WHERE usu_correo = v_correo 
-    AND usu_contrasena = v_contrasena;
+    AND usu_contrasena = SHA2(CONCAT(v_contrasena, usu_salt), 256); -- Validación con salt
 END //
 DELIMITER ;
 
