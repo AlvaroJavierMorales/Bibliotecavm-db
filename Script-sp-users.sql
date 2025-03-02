@@ -143,8 +143,8 @@ BEGIN
         usu_salt,
         usu_rol
     FROM tbl_usuarios 
-    WHERE usu_correo = v_correo 
-    AND usu_contrasena = v_contrasena_hash; -- Comparar el hash proporcionado con el almacenado
+    WHERE usu_correo = v_correo;
+
 END //
 DELIMITER ;
 -- Selecciona un usuario por su correo
