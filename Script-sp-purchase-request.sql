@@ -152,3 +152,14 @@ BEGIN
         sc.tbl_usuarios_usu_id = v_user_id;
 END//
 DELIMITER ;
+
+    -- Seleccionar el ID y el título de los materiales educativos
+DELIMITER //
+CREATE PROCEDURE procGetMaterials()
+BEGIN
+    -- Seleccionar el ID y el título de los materiales educativos
+    SELECT mat_id, mat_titulo
+    FROM tbl_material_edu;
+END //
+
+DELIMITER ;
