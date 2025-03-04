@@ -131,8 +131,7 @@ DELIMITER ;
 -- Validar el inicio de sesión comprobando correo y contraseña
 DELIMITER //
 CREATE PROCEDURE procValidateUserLogin(
-    IN v_correo VARCHAR(80), 
-    IN v_contrasena_hash TEXT) -- Contraseña ya hasheada proporcionada por la aplicación
+    IN v_correo VARCHAR(80)) 
 BEGIN 
     -- Seleccionar los datos del usuario si el correo y la contraseña hasheada coinciden
     SELECT 
@@ -144,9 +143,10 @@ BEGIN
         usu_rol
     FROM tbl_usuarios 
     WHERE usu_correo = v_correo;
-
 END //
 DELIMITER ;
+
+
 -- Selecciona un usuario por su correo
 DELIMITER //
 CREATE PROCEDURE procSelectUsersMail(IN p_mail VARCHAR(80))
