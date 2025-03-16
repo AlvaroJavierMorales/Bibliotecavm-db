@@ -98,3 +98,44 @@ BEGIN
       AND tbl_usuarios_usu_id = v_usu_id;
 END//
 DELIMITER ;
+
+-- ID del usuario del cual se desean obtener las respuestas
+DELIMITER //
+CREATE PROCEDURE procSelectAnswerByUser(
+    IN p_user_id INT  -- ID del usuario
+)
+BEGIN
+    -- Selecciona las respuestas dadas por el usuario
+    SELECT 
+        r.res_id,                      -- ID de la respuesta
+        r.tbl_encuesta_en_id,          -- ID de la encuesta
+        e.en_descripcion_pregunta,     -- Pregunta de la encuesta
+        r.res_respuesta,               -- Respuesta (Sí o No)
+        CONCAT(u.usu_nombre, ' ', u.usu_apellido) AS nombre_usuario  -- Nombre completo del usuario
+    FROM tbl_respuestas r
+    INNER JOIN tbl_encuesta e ON r.tbl_encuesta_en_id = e.en_id
+    INNER JOIN tbl_usuarios u ON r.tbl_usuarios_usu_id = u.usu_id
+    WHERE r.tbl_usuarios_usu_id = p_user_id
+    ORDER BY e.en_descripcion_pregunta, r.res_id ASC;
+END//
+DELIMITER ;
+
+-- ID del usuario del cual se desean obtener las preguntas no respondidas.
+DELIMITER //
+CREATE PROCEDURE procGetUnansweredQuestionsByUser(
+    IN v_usu_id INT  -- ID del usuario
+)
+BEGIN
+    -- Selecciona las preguntas no respondidas por el usuario
+    SELECT 
+        e.en_id,                      -- ID de la encuesta
+        e.en_descripcion_pregunta     -- Pregunta de la encuesta
+    FROM tbl_encuesta e
+    WHERE e.en_id NOT IN (
+        SELECT r.tbl_encuesta_en_id 
+        FROM tbl_respuestas r
+        WHERE r.tbl_usuarios_usu_id = v_usu_id
+    )
+    ORDER BY e.en_descripcion_pregunta ASC;
+END//
+DELIMITER ;
