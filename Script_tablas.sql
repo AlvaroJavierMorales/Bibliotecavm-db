@@ -188,7 +188,6 @@ CREATE TABLE IF NOT EXISTS `bibliotecavm-db`.`tbl_visitas` (
   `vis_id` INT NOT NULL AUTO_INCREMENT,
   `vis_fecha_ingreso` DATE NOT NULL,
   `vis_duracion` TIME NOT NULL,
-  `vis_dispositivo` ENUM('Computadora', 'Móvil', 'Tableta', 'Otro') NOT NULL,
   `tbl_usuarios_usu_id` INT NOT NULL,
   `tbl_material_edu_mat_id` INT NOT NULL,
   PRIMARY KEY (`vis_id`),
