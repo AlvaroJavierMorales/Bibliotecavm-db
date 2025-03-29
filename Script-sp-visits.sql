@@ -165,3 +165,33 @@ BEGIN
     FROM tbl_material_edu;
 END //
 DELIMITER ;
+
+--  Actualizar la duración de la visita, para ver el tiempo de visita.
+
+DELIMITER //
+CREATE PROCEDURE procActualizarDuracionVisita(
+    IN v_visita_id INT,
+    IN v_duracion TIME
+)
+BEGIN
+    UPDATE tbl_visitas
+    SET vis_duracion = v_duracion
+    WHERE vis_id = v_visita_id;
+END //
+DELIMITER ;
+
+
+DELIMITER //
+CREATE PROCEDURE procObtenerUltimaVisitaId(
+    IN v_usu_id INT,
+    IN v_mat_id INT
+)
+BEGIN
+    SELECT vis_id
+    FROM tbl_visitas
+    WHERE tbl_usuarios_usu_id = v_usu_id
+      AND tbl_material_edu_mat_id = v_mat_id
+    ORDER BY vis_fecha_ingreso DESC
+    LIMIT 1;
+END //
+DELIMITER ;
