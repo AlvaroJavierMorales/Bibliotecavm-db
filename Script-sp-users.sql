@@ -171,3 +171,23 @@ BEGIN
     WHERE usu_correo = v_correo;
 END//
 DELIMITER ;
+
+-- 10 Buscar por correo a los usuarios: 
+-- 10. Procedimiento para Buscar Usuarios por Correo Electrónico (coincidencia parcial)
+DELIMITER //
+CREATE PROCEDURE procSearchUsersByEmail(
+    IN p_correo VARCHAR(80)
+)
+BEGIN
+    -- Seleccionar los usuarios cuyo correo contenga el texto buscado (búsqueda parcial)
+    SELECT 
+        usu_id, 
+        usu_nombre, 
+        usu_apellido, 
+        usu_correo, 
+        usu_rol, 
+        usu_nivel_estudios
+    FROM tbl_usuarios
+    WHERE usu_correo LIKE CONCAT('%', p_correo, '%');
+END//
+DELIMITER ;
