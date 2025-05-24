@@ -6,36 +6,33 @@ CREATE PROCEDURE procInsertUsers(
     IN v_correo VARCHAR(80),
     IN v_contrasena TEXT, 
     IN v_salt TEXT,
-    IN v_rol ENUM('Administrador', 'Docente', 'Estudiante'))
+    IN v_rol ENUM('Administrador', 'Docente', 'Estudiante')
+)
 BEGIN
-    DECLARE email_count INT;
-    SELECT COUNT(*) INTO email_count 
-    FROM tbl_usuarios 
-    WHERE usu_correo = v_correo;
-
-    IF email_count = 0 THEN
-        INSERT INTO tbl_usuarios(
-            usu_nombre, 
-            usu_apellido, 
-            usu_correo, 
-            usu_contrasena, 
-            usu_salt, 
-            usu_rol,
-            usu_estado
-        ) 
-        VALUES (
-            v_nombre, 
-            v_apellido, 
-            v_correo, 
-            v_contrasena, 
-            v_salt, 
-            v_rol,
-            'Activo'
-        );
-    ELSE
-        SIGNAL SQLSTATE '45000' 
-        SET MESSAGE_TEXT = 'El correo electrónico ya está registrado.';
-    END IF;
+    DECLARE user_count INT;
+    
+    -- Solo determinamos si es el primer usuario para asignar rol Administrador
+    SELECT COUNT(*) INTO user_count FROM tbl_usuarios;
+    
+    -- Inserción directa aprovechando los DEFAULT de la tabla
+    INSERT INTO tbl_usuarios(
+        usu_nombre, 
+        usu_apellido, 
+        usu_correo, 
+        usu_contrasena, 
+        usu_salt, 
+        usu_rol
+    ) VALUES (
+        v_nombre, 
+        v_apellido, 
+        v_correo, 
+        v_contrasena, 
+        v_salt, 
+        IF(user_count = 0, 'Administrador', v_rol)
+    );
+    
+    -- Retornamos solo el ID del nuevo usuario
+    SELECT LAST_INSERT_ID() AS nuevo_usuario_id;
 END//
 DELIMITER ;
 
