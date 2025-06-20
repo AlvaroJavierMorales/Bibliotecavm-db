@@ -66,12 +66,15 @@ CREATE TABLE IF NOT EXISTS `bibliotecavm-db`.`tbl_usuarios` (
   `usu_correo` VARCHAR(80) NOT NULL,
   `usu_contrasena` TEXT NOT NULL,
   `usu_salt` TEXT NOT NULL,
+  `usu_celular` VARCHAR(10) NOT NULL COMMENT 'Número celular colombiano (10 dígitos, formato: 3123456789)',
   `usu_rol` ENUM('Administrador', 'Docente', 'Estudiante') NULL,
   `usu_estado` ENUM('Activo', 'Inactivo') NOT NULL DEFAULT 'Activo',
   `usu_fecha_creacion` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `usu_fecha_ultima_modificacion` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`usu_id`),
-  UNIQUE INDEX `usu_correo_UNIQUE` (`usu_correo` ASC)
+  UNIQUE INDEX `usu_correo_UNIQUE` (`usu_correo` ASC),
+  UNIQUE INDEX `usu_celular_UNIQUE` (`usu_celular` ASC),
+  CONSTRAINT `chk_celular_colombia` CHECK (REGEXP_LIKE(`usu_celular`, '^[3][0-9]{9}$'))
 )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
