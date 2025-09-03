@@ -223,12 +223,11 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE procActualizarDuracionVisita(
     IN v_visita_id INT,
-    IN v_duracion VARCHAR(8) -- Cambiar de TIME a VARCHAR
+    IN v_duracion TIME
 )
 BEGIN
-    -- Conversión explícita a TIME
     UPDATE tbl_visitas 
-    SET vis_duracion = CAST(v_duracion AS TIME)
+    SET vis_duracion = v_duracion
     WHERE vis_id = v_visita_id;
 END //
 DELIMITER ;
