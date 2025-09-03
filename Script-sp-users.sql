@@ -290,3 +290,13 @@ BEGIN
     WHERE usu_celular = v_celular;
 END//
 DELIMITER ;
+
+-- Procedimiento para obetner el número celular del usuario
+DELIMITER //
+CREATE PROCEDURE `procGetUserPhone`(IN v_user_id INT)
+BEGIN
+    SELECT `usu_celular` 
+    FROM `tbl_usuarios` 
+    WHERE `usu_id` = v_user_id;
+END//
+DELIMITER ;
