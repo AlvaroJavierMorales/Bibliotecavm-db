@@ -6,7 +6,7 @@ CREATE PROCEDURE proInsertMaterialEducativo (
     IN titulo TEXT,
     IN ano_publicacion YEAR,
     IN url_descarga TEXT,
-    IN precio DECIMAL(10, 0),
+    IN precio DECIMAL(10, 2),
     IN keywords TEXT,
     IN formato ENUM('PDF', 'Epub', 'Video', 'Audio', 'Otro'), 
     IN editorial_id INT,

@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS `bibliotecavm-db`.`tbl_material_edu` (
   `mat_titulo` TEXT NOT NULL,
   `mat_ano_publicacion` YEAR NOT NULL,
   `mat_url_descarga` TEXT NOT NULL,
-  `mat_precio` DECIMAL(10,0) NOT NULL,
+  `mat_precio` DECIMAL(10,2) NOT NULL DEFAULT '0.00',
   `mat_keywords` TEXT NULL DEFAULT NULL,
   `mat_formato` ENUM('PDF', 'Epub', 'Video', 'Audio', 'Otro') NOT NULL,
   `tbl_editorial_edi_id` INT NOT NULL,
